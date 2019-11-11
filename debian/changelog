@@ -1,3 +1,10 @@
+open62541 (20191111T111405~1.1~dev~207~g5af4e6cd) UNRELEASED; urgency=medium
+
+  * Full changelog is available here:
+    https://github.com/open62541/open62541/blob/master/CHANGELOG
+
+ -- open62541 Team <open62541-core@googlegroups.com>  Mon, 11 Nov 2019 11:14:05 -0000
+
 open62541 (1.0~rc1) UNRELEASED; urgency=low
 
   * Release Candidate 1 for 1.0 Version.
