@@ -478,7 +478,7 @@ if(NOT UA_COMPILE_AS_CXX AND (CMAKE_COMPILER_IS_GNUCC OR "x${CMAKE_C_COMPILER_ID
                 cmake_policy(SET CMP0069 NEW) # needed as long as required cmake < 3.9
                 include(CheckIPOSupported)
                 check_ipo_supported(RESULT CC_HAS_IPO) # Inter Procedural Optimization / Link Time Optimization (should be same as -flto)
-                if(CC_HAS_IPO)
+                if(CC_HAS_IPO AND NOT UA_DISABLE_LTO)
                     set(CMAKE_INTERPROCEDURAL_OPTIMIZATION ON)
                 endif()
             endif()
