@@ -718,6 +718,12 @@ browseWithContinuation(UA_Server *server, UA_Session *session,
 void
 Operation_Browse(UA_Server *server, UA_Session *session, const UA_UInt32 *maxrefs,
                  const UA_BrowseDescription *descr, UA_BrowseResult *result) {
+    if(server->config.beforeBrowseCallback != NULL) {
+        UA_UNLOCK(&server->serviceMutex);
+        server->config.beforeBrowseCallback(server, &descr->nodeId, descr->browseDirection);
+        UA_LOCK(&server->serviceMutex);
+    }
+
     /* Stack-allocate a temporary cp */
     ContinuationPoint cp;
     memset(&cp, 0, sizeof(ContinuationPoint));

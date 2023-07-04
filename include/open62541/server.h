@@ -48,6 +48,22 @@ typedef struct UA_PubSubConfiguration UA_PubSubConfiguration;
 
 typedef void (*UA_Server_AsyncOperationNotifyCallback)(UA_Server *server);
 
+/** Before browse request callback.
+ * Callback is called at the View service before processing a Browse request for a node.
+ * Used e.g. to create nodes on the fly.
+ */
+typedef void (*UA_BeforeBrowseCallback)(UA_Server *server, const UA_NodeId *nodeId, UA_BrowseDirection browseDirection);
+/** Before read request callback.
+ * Callback is called at the Attribute service before processing a Read request for a node.
+ * Used e.g. to create nodes on the fly.
+ */
+typedef void (*UA_BeforeReadCallback)(UA_Server *server, const UA_NodeId *nodeId);
+/** Before write request callback.
+ * Callback is called at the Attribute service before processing a Write request for a node.
+ * Used e.g. to create nodes on the fly.
+ */
+typedef void (*UA_BeforeWriteCallback)(UA_Server *server, const UA_NodeId *nodeId);
+
 typedef struct {
     UA_UInt32 min;
     UA_UInt32 max;
@@ -332,6 +348,10 @@ struct UA_ServerConfig {
     UA_Boolean deleteEventCapability;
     UA_Boolean deleteAtTimeDataCapability;
 #endif
+
+    UA_BeforeBrowseCallback beforeBrowseCallback;
+    UA_BeforeReadCallback beforeReadCallback;
+    UA_BeforeWriteCallback beforeWriteCallback;
 };
 
 void UA_EXPORT

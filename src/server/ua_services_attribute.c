@@ -563,6 +563,13 @@ ReadWithNode(const UA_Node *node, UA_Server *server, UA_Session *session,
 static void
 Operation_Read(UA_Server *server, UA_Session *session, UA_ReadRequest *request,
                UA_ReadValueId *rvi, UA_DataValue *result) {
+
+    if(server->config.beforeReadCallback != NULL) {
+        UA_UNLOCK(&server->serviceMutex);
+        server->config.beforeReadCallback(server, &rvi->nodeId);
+        UA_LOCK(&server->serviceMutex);
+    }
+
     /* Get the node */
     const UA_Node *node = UA_NODESTORE_GET(server, &rvi->nodeId);
 
@@ -1692,6 +1699,12 @@ static void
 Operation_Write(UA_Server *server, UA_Session *session, void *context,
                 const UA_WriteValue *wv, UA_StatusCode *result) {
     UA_assert(session != NULL);
+
+    if(server->config.beforeWriteCallback != NULL) {
+        UA_UNLOCK(&server->serviceMutex);
+        server->config.beforeWriteCallback(server, &wv->nodeId);
+        UA_LOCK(&server->serviceMutex);
+    }
     *result = UA_Server_editNode(server, session, &wv->nodeId,
                                  (UA_EditNodeCallback)copyAttributeIntoNode,
                                  (void*)(uintptr_t)wv);

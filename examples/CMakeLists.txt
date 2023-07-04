@@ -87,6 +87,8 @@ add_example(tutorial_server_variabletype tutorial_server_variabletype.c)
 
 add_example(tutorial_server_object tutorial_server_object.c)
 
+add_example(tutorial_server_object_callbacks tutorial_server_object_callbacks.c)
+
 if(UA_ENABLE_METHODCALLS)
     add_example(tutorial_server_method tutorial_server_method.c)
     if (UA_MULTITHREADING EQUAL 100)
